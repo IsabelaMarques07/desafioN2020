@@ -1,0 +1,84 @@
+import java.util.Scanner;
+import java.util.Arrays;
+import java.util.Random;
+
+public class RoboN2020 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		int colunas, linhas, i, j, k;
+		double sensor;
+
+		Scanner teclado = new Scanner(System.in);
+
+		System.out.println("Informe o primeiro lado da UTI(em metros): ");
+		colunas = teclado.nextInt();
+		System.out.println("Informe o segundo lado da UTI(em metros): ");
+		linhas = teclado.nextInt();
+
+		// MONTAGEM DO ARRAY MAPA
+		String[][] mapa = new String[linhas * 2][colunas * 2];
+		for (i = 0; i < (linhas * 2); i++) {
+			for (j = 0; j < (colunas * 2); j++) {
+				mapa[i][j] = "-";
+			}
+		}
+		// APRESENTAÇÃO DO MAPA
+		for (i = 0; i < (linhas * 2); i++) {
+			for (j = 0; j < (colunas * 2); j++) {
+				System.out.print("  " + mapa[i][j]);
+			}
+			System.out.println("");
+		}
+
+		for (j = 0; j < (colunas * 2); i++) {
+			for (i = 0; i < (linhas * 2); i++) {
+
+				// 5 PASSOS
+				for (k = 0; k < 4; k++) {
+
+					sensor = Math.random();
+
+					if (sensor <= 0.4589) {
+						System.out.println("Colônia de Vírus encontrada!");
+						System.out.println(sensor);
+
+					} else if (sensor < 0.7999) {
+						System.out.println("Pessoa encontrada! DESVIANDO...");
+						System.out.println(sensor);
+
+						mapa[i][j] = "p";
+						k = 5;
+
+						// APRESENTAÇÃO DO MAPA
+						for (i = 0; i < (linhas * 2); i++) {
+							for (j = 0; j < (colunas * 2); j++) {
+								System.out.print("  " + mapa[i][j]);
+							}
+							System.out.println("");
+						}
+					} else {
+						System.out.println("Objeto encontrado! DESVIANDO...");
+						System.out.println(sensor);
+
+						mapa[i][j] = "o";
+						k = 5;
+
+						// APRESENTAÇÃO DO MAPA
+						for (i = 0; i < (linhas * 2); i++) {
+							for (j = 0; j < (colunas * 2); j++) {
+								System.out.print("  " + mapa[i][j]);
+							}
+							System.out.println("");
+						}
+					}
+
+				}
+				System.out.println("Próximo");
+			}
+
+		}
+
+	}
+}

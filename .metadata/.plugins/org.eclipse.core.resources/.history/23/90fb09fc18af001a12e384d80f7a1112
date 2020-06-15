@@ -1,0 +1,276 @@
+import java.util.Scanner;
+import java.util.Arrays;
+import java.util.Random;
+
+public class RoboN2020 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		int colunas, linhas;
+		int pessoas = 0, objetos = 0, colonias = 0;
+		int i, j, k, c, l, a;
+		double sensor;
+
+		Scanner teclado = new Scanner(System.in);
+
+		System.out.println("Informe o primeiro lado da UTI(em metros): ");
+		colunas = teclado.nextInt();
+		System.out.println("Informe o segundo lado da UTI(em metros): ");
+		linhas = teclado.nextInt();
+
+		
+		//INTRODUÇÃO À APLICAÇÃO
+		System.out.println("____________________________________________");
+		System.out.println("i - Início | c - Colônia de vírus | p - Pessoa | o - Objeto | x - Local já percorrido");
+		System.out.println("- Cada caracter equivale à 50cm x 50cm");
+		System.out.println("- O robô percorre o mapa com passos de 10cm");
+		System.out.println("____________________________________________");
+		
+		
+		// MONTAGEM DO ARRAY MAPA
+		String[][] mapa = new String[linhas * 2][colunas * 2];
+		for (i = 0; i < (linhas * 2); i++) {
+			for (j = 0; j < (colunas * 2); j++) {
+				mapa[i][j] = "-";
+			}
+		}
+
+		for (c = 0; c < (colunas * 2); c++) {
+			// MAPA DESCENDO
+			for (l = 0; l < (linhas * 2); l++) {
+
+				if (c == 0 && l == 0) { // Posição inicial
+					mapa[l][c] = "i";
+
+					// APRESENTAÇÃO DO MAPA
+					for (i = 0; i < (linhas * 2); i++) {
+						for (j = 0; j < (colunas * 2); j++) {
+							System.out.print("  " + mapa[i][j]);
+						}
+						System.out.println("");
+					}
+					System.out.println("____________________________________________");
+				} else {
+
+					// 5 PASSOS POR CARACTER
+					for (k = 0; k < 5; k++) {
+
+						sensor = Math.random();
+
+						if (sensor <= 0.4589) {
+							System.out.println("Colônia de Vírus encontrada!");
+							colonias++;
+
+							mapa[l][c] = "c";
+
+						} else if (sensor < 0.7999) {
+							System.out.println("Pessoa encontrada! DESVIANDO...");
+							System.out.println("--------------------------------------------");
+							pessoas++;
+
+							mapa[l][c] = "p";
+
+							// variavel de passos faltantes
+
+							// DESVIAR
+							if (c + 1 < colunas * 2) {
+								a = 1;
+							} else {
+								a = -1; // Caso seja a última coluna do mapa
+							}
+							if ((linhas * 2) - l != linhas * 2 && (linhas * 2) - l != 1) { // LINHAS CENTRAIS
+								mapa[l - 1][c + a] = "x";
+								mapa[l][c + a] = "x";
+								mapa[l + 1][c + a] = "x";
+								mapa[l + 1][c] = "x"; // IF PRA VER SE TEM OBJETO
+								l++;
+								k = 5;
+							} else if ((linhas * 2) - l == 1) { // ÚLTIMA LINHA
+								mapa[l - 1][c + a] = "x";
+								mapa[l][c + a] = "x";
+								l++;
+								k = 5;
+							} else { // PRIMEIRA LINHA
+								mapa[l][c + a] = "x";
+								mapa[l + 1][c + a] = "x";
+								mapa[l + 1][c] = "x";
+								l++;
+								k = 5;
+							}
+
+							// APRESENTAÇÃO DO MAPA
+							mapa[l - 1][c] = "r";
+							for (i = 0; i < (linhas * 2); i++) {
+								for (j = 0; j < (colunas * 2); j++) {
+									System.out.print("  " + mapa[i][j]);
+								}
+								System.out.println("");
+							}
+							mapa[l - 1][c] = "r";
+
+						} else {
+							System.out.println("Objeto encontrado! DESVIANDO...");
+							System.out.println("--------------------------------------------");
+							objetos++;
+
+							mapa[l][c] = "o";
+
+							// DESVIAR
+							if (c + 1 < colunas * 2) {
+								a = 1;
+							} else {
+								a = -1;
+							}
+							if ((linhas * 2) - l != linhas * 2 && (linhas * 2) - l != 1) { // LINHAS CENTRAIS
+								mapa[l - 1][c + a] = "x";
+								mapa[l][c + a] = "x";
+								mapa[l + 1][c + a] = "x";
+								mapa[l + 1][c] = "x"; // IF PRA VER SE TEM OBJETO
+								l++;
+								k = 5;
+							} else if ((linhas * 2) - l == 1) { // ÚLTIMA LINHA
+								mapa[l - 1][c + a] = "x";
+								mapa[l][c + a] = "x";
+								l++;
+								k = 5;
+							} else { // PRIMEIRA LINHA
+								mapa[l][c + a] = "x";
+								mapa[l + 1][c + a] = "x";
+								mapa[l + 1][c] = "x";
+								l++;
+								k = 5;
+							}
+
+							// APRESENTAÇÃO DO MAPA
+							for (i = 0; i < (linhas * 2); i++) {
+								for (j = 0; j < (colunas * 2); j++) {
+									System.out.print("  " + mapa[i][j]);
+								}
+								System.out.println("");
+							}
+						}
+
+					}
+				}
+				System.out.println("____________________________________________");
+
+			}
+			c++;
+			// MAPA SUBINDO
+
+			for (l = (linhas * 2) - 1; l >= 0; l--) {
+				if (mapa[l][c] != "-") {
+					System.out.println("Local já higiênizado!");
+				} else {
+					// 5 PASSOS
+					for (k = 0; k < 5; k++) {
+
+						sensor = Math.random();
+
+						if (sensor <= 0.4589) {
+							System.out.println("Colônia de Vírus encontrada!");
+							colonias++;
+
+							mapa[l][c] = "c";
+
+						} else if (sensor < 0.7999) {
+							System.out.println("Pessoa encontrada! DESVIANDO...");
+							System.out.println("--------------------------------------------");
+							pessoas++;
+
+							mapa[l][c] = "p";
+
+							// variavel de passos faltantes
+							// DESVIAR
+							if (c + 1 < colunas * 2) {
+								a = 1;
+							} else {
+								a = -1;
+							}
+							if (l + 1 - (linhas * 2) != linhas * 2 && l + 1 - (linhas * 2) != 1) { // LINHAS CENTRAIS
+								mapa[l + 1][c + a] = "x";
+								mapa[l][c + a] = "x";
+								mapa[l - 1][c + a] = "x";
+								mapa[l - 1][c] = "x"; // IF PRA VER SE TEM OBJETO
+								l++;
+								k = 5;
+							} else if ((linhas * 2) - (l + 1) == 1) { // ÚLTIMA LINHA
+								mapa[l + 1][c + a] = "x";
+								mapa[l][c + a] = "x";
+								l++;
+								k = 5;
+							} else { // PRIMEIRA LINHA
+								mapa[l][c + a] = "x";
+								mapa[l - 1][c + a] = "x";
+								mapa[l - 1][c] = "x";
+								l++;
+								k = 5;
+							}
+
+							// APRESENTAÇÃO DO MAPA
+							for (i = 0; i < (linhas * 2); i++) {
+								for (j = 0; j < (colunas * 2); j++) {
+									System.out.print("  " + mapa[i][j]);
+								}
+								System.out.println("");
+							}
+
+						} else {
+							System.out.println("Objeto encontrado! DESVIANDO...");
+							System.out.println("--------------------------------------------");
+							objetos++;
+
+							mapa[l][c] = "o";
+
+							// DESVIAR
+							// variavel de passos faltantes
+							if (c + 1 < colunas * 2) {
+								a = 1;
+							} else {
+								a = -1;
+							}
+							if (l + 1 - (linhas * 2) != 0 && l + 1 - (linhas * 2) != 1) { // LINHAS CENTRAIS
+								mapa[l + 1][c + a] = "x";
+								mapa[l][c + a] = "x";
+								mapa[l - 1][c + a] = "x";
+								mapa[l - 1][c] = "x"; // IF PRA VER SE TEM OBJETO
+								l++;
+								k = 5;
+							} else if ((linhas * 2) - (l + 1) == 1) { // ÚLTIMA LINHA
+								mapa[l + 1][c + a] = "x";
+								mapa[l][c + a] = "x";
+								l++;
+								k = 5;
+							} else { // PRIMEIRA LINHA
+								mapa[l][c + a] = "x";
+								mapa[l - 1][c + a] = "x";
+								mapa[l - 1][c] = "x";
+								l++;
+								k = 5;
+							}
+
+							// APRESENTAÇÃO DO MAPA
+							for (i = 0; i < (linhas * 2); i++) {
+								for (j = 0; j < (colunas * 2); j++) {
+									System.out.print("  " + mapa[i][j]);
+								}
+								System.out.println("");
+							}
+						}
+
+					}
+				}
+			}
+			System.out.println("____________________________________________");
+		}
+
+		System.out.println("Quantidade total de pessoas no quarto: \t\t\t"+pessoas);
+		System.out.println("Quantidade total de objetos no quarto: \t\t\t"+objetos);
+		System.out.println("Quantidade total de colônias no quarto: \t\t"+colonias);
+		System.out.println("Área total do quarto reconhecida pelo robo(m²): \t"+ colunas * linhas);
+		
+		teclado.close();
+
+	}
+}
