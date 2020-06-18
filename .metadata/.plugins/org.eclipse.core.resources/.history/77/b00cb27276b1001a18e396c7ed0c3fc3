@@ -19,14 +19,14 @@ public class RoboN2020 {
 		System.out.println("Informe o segundo lado da UTI(em metros): ");
 		linhas = teclado.nextInt();
 
-		
-		//INTRODUÇÃO À APLICAÇÃO
-		System.out.println("- Cada caracter equivale à 50cm x 50cm");
+		// INTRODUÇÃO À APLICAÇÃO
+		System.out.println("____________________________________________");
+		System.out.println("POLLUX - O NOVO ROBÔ HIGIÊNIZADOR DE AMBIENTES");
 		System.out.println("i - Início | c - Colônia de vírus | p - Pessoa | o - Objeto | x - Local já percorrido");
+		System.out.println("- Cada caracter equivale à 50cm x 50cm");
 		System.out.println("- O robô percorre o mapa com passos de 10cm");
 		System.out.println("____________________________________________");
-		
-		
+
 		// MONTAGEM DO ARRAY MAPA
 		String[][] mapa = new String[linhas * 2][colunas * 2];
 		for (i = 0; i < (linhas * 2); i++) {
@@ -78,32 +78,45 @@ public class RoboN2020 {
 							} else {
 								a = -1; // Caso seja a última coluna do mapa
 							}
-							if ((linhas * 2) - l != linhas * 2 && (linhas * 2) - l != 1) { // LINHAS CENTRAIS
+							if (l != 0 && l != (linhas * 2) - 1) { // LINHAS CENTRAIS
 								mapa[l - 1][c + a] = "x";
 								mapa[l][c + a] = "x";
 								mapa[l + 1][c + a] = "x";
-								mapa[l + 1][c] = "x"; // IF PRA VER SE TEM OBJETO
+								mapa[l + 1][c] = "x";
 								l++;
 								k = 5;
-							} else if ((linhas * 2) - l == 1) { // ÚLTIMA LINHA
+							} else if (l == (linhas * 2) - 1) { // ÚLTIMA LINHA
 								mapa[l - 1][c + a] = "x";
 								mapa[l][c + a] = "x";
 								l++;
 								k = 5;
 							} else { // PRIMEIRA LINHA
-								mapa[l][c + a] = "x";
-								mapa[l + 1][c + a] = "x";
 								mapa[l + 1][c] = "x";
 								l++;
 								k = 5;
 							}
 
 							// APRESENTAÇÃO DO MAPA
+							try {
+								Thread.sleep(1000);
+							} catch (InterruptedException e) {
+							}
+							if (l < (linhas * 2) - 1) {
+								mapa[l][c] = "r";
+							} else {
+								mapa[l - 1][c + 1] = "r";
+							}
+
 							for (i = 0; i < (linhas * 2); i++) {
 								for (j = 0; j < (colunas * 2); j++) {
 									System.out.print("  " + mapa[i][j]);
 								}
 								System.out.println("");
+							}
+							if (l < (linhas * 2) - 1) {
+								mapa[l][c] = "x";
+							} else {
+								mapa[l - 1][c + 1] = "x";
 							}
 
 						} else {
@@ -119,33 +132,46 @@ public class RoboN2020 {
 							} else {
 								a = -1;
 							}
-							if ((linhas * 2) - l != linhas * 2 && (linhas * 2) - l != 1) { // LINHAS CENTRAIS
+							if (l != 0 && l != (linhas * 2) - 1) { // LINHAS CENTRAIS
 								mapa[l - 1][c + a] = "x";
 								mapa[l][c + a] = "x";
 								mapa[l + 1][c + a] = "x";
-								mapa[l + 1][c] = "x"; // IF PRA VER SE TEM OBJETO
+								mapa[l + 1][c] = "x";
 								l++;
 								k = 5;
-							} else if ((linhas * 2) - l == 1) { // ÚLTIMA LINHA
+							} else if (l == (linhas * 2) - 1) { // ÚLTIMA LINHA
 								mapa[l - 1][c + a] = "x";
 								mapa[l][c + a] = "x";
 								l++;
 								k = 5;
 							} else { // PRIMEIRA LINHA
-								mapa[l][c + a] = "x";
-								mapa[l + 1][c + a] = "x";
 								mapa[l + 1][c] = "x";
 								l++;
 								k = 5;
 							}
 
 							// APRESENTAÇÃO DO MAPA
+							try {
+								Thread.sleep(1000);
+							} catch (InterruptedException e) {
+							}
+							if (l < (linhas * 2) - 1) {
+								mapa[l][c] = "r";
+							} else {
+								mapa[l - 1][c + 1] = "r";
+							}
 							for (i = 0; i < (linhas * 2); i++) {
 								for (j = 0; j < (colunas * 2); j++) {
 									System.out.print("  " + mapa[i][j]);
 								}
 								System.out.println("");
 							}
+							if (l < (linhas * 2) - 1) {
+								mapa[l][c] = "x";
+							} else {
+								mapa[l - 1][c + 1] = "x";
+							}
+
 						}
 
 					}
@@ -158,7 +184,8 @@ public class RoboN2020 {
 
 			for (l = (linhas * 2) - 1; l >= 0; l--) {
 				if (mapa[l][c] != "-") {
-					System.out.println("Local já higiênizado!");
+					System.out.println("Local já reconhecido!");
+					// l--;
 				} else {
 					// 5 PASSOS
 					for (k = 0; k < 5; k++) {
@@ -185,33 +212,37 @@ public class RoboN2020 {
 							} else {
 								a = -1;
 							}
-							if (l + 1 - (linhas * 2) != linhas * 2 && l + 1 - (linhas * 2) != 1) { // LINHAS CENTRAIS
+							if (l != 0 && l != (linhas * 2) - 1) { // LINHAS CENTRAIS
 								mapa[l + 1][c + a] = "x";
-								mapa[l][c + a] = "x";
-								mapa[l - 1][c + a] = "x";
-								mapa[l - 1][c] = "x"; // IF PRA VER SE TEM OBJETO
-								l++;
-								k = 5;
-							} else if ((linhas * 2) - (l + 1) == 1) { // ÚLTIMA LINHA
-								mapa[l + 1][c + a] = "x";
-								mapa[l][c + a] = "x";
-								l++;
-								k = 5;
-							} else { // PRIMEIRA LINHA
 								mapa[l][c + a] = "x";
 								mapa[l - 1][c + a] = "x";
 								mapa[l - 1][c] = "x";
 								l++;
 								k = 5;
+							} else if (l == (linhas * 2) - 1) { // ÚLTIMA LINHA
+								mapa[l + 1][c + a] = "x";
+								mapa[l][c + a] = "x";
+								l++;
+								k = 5;
+							} else { // PRIMEIRA LINHA
+								mapa[l + 1][c] = "x";
+								l++;
+								k = 5;
 							}
 
 							// APRESENTAÇÃO DO MAPA
+							try {
+								Thread.sleep(1000);
+							} catch (InterruptedException e) {
+							}
+							mapa[l][c] = "r";
 							for (i = 0; i < (linhas * 2); i++) {
 								for (j = 0; j < (colunas * 2); j++) {
 									System.out.print("  " + mapa[i][j]);
 								}
 								System.out.println("");
 							}
+							mapa[l][c] = "x";
 
 						} else {
 							System.out.println("Objeto encontrado! DESVIANDO...");
@@ -227,32 +258,44 @@ public class RoboN2020 {
 							} else {
 								a = -1;
 							}
-							if (l + 1 - (linhas * 2) != 0 && l + 1 - (linhas * 2) != 1) { // LINHAS CENTRAIS
+							if (l != 0 && l != (linhas * 2) - 1) { // LINHAS CENTRAIS
 								mapa[l + 1][c + a] = "x";
-								mapa[l][c + a] = "x";
-								mapa[l - 1][c + a] = "x";
-								mapa[l - 1][c] = "x"; // IF PRA VER SE TEM OBJETO
-								l++;
-								k = 5;
-							} else if ((linhas * 2) - (l + 1) == 1) { // ÚLTIMA LINHA
-								mapa[l + 1][c + a] = "x";
-								mapa[l][c + a] = "x";
-								l++;
-								k = 5;
-							} else { // PRIMEIRA LINHA
 								mapa[l][c + a] = "x";
 								mapa[l - 1][c + a] = "x";
 								mapa[l - 1][c] = "x";
 								l++;
 								k = 5;
+							} else if (l == (linhas * 2) - 1) { // ÚLTIMA LINHA
+								mapa[l + 1][c + a] = "x";
+								mapa[l][c + a] = "x";
+								l++;
+								k = 5;
+							} else { // PRIMEIRA LINHA
+								mapa[l + 1][c] = "x";
+								l++;
+								k = 5;
 							}
 
 							// APRESENTAÇÃO DO MAPA
+							try {
+								Thread.sleep(1000);
+							} catch (InterruptedException e) {
+							}
+							if (l > 0) {
+								mapa[l][c] = "r";
+							} else {
+								mapa[l - 1][c + 1] = "r";
+							}
 							for (i = 0; i < (linhas * 2); i++) {
 								for (j = 0; j < (colunas * 2); j++) {
 									System.out.print("  " + mapa[i][j]);
 								}
 								System.out.println("");
+							}
+							if (l > 0) {
+								mapa[l][c] = "r";
+							} else {
+								mapa[l - 1][c + 1] = "r";
 							}
 						}
 
@@ -262,9 +305,38 @@ public class RoboN2020 {
 			System.out.println("____________________________________________");
 		}
 
-		System.out.println("Quantidade total de pessoas no quarto: \t\t"+pessoas);
-		System.out.println("Quantidade total de objetos no quarto: \t\t"+objetos);
-		System.out.println("Quantidade total de colônias no quarto: \t"+colonias);
+		System.out.println("Quantidade total de pessoas no quarto: \t\t\t" + pessoas);
+		System.out.println("Quantidade total de objetos no quarto: \t\t\t" + objetos);
+		System.out.println("Quantidade total de colônias no quarto: \t\t" + colonias);
+		System.out.println("Área total do quarto reconhecida pelo robo(m²): \t" + colunas * linhas);
+
+		if (pessoas > 0) {
+			System.out.println("HÁ PESSOAS NA SALA!");
+			System.out.println("Para que a sala seja higienizada, não deve haver pessoas na sala!");
+
+			// "RETIRAR" PESSOAS DA SALA
+			for (i = 0; i < (linhas * 2); i++) {
+				for (j = 0; j < (colunas * 2); j++) {
+					if (mapa[i][j] == "p") {
+						mapa[i][j] = "x";
+					}
+				}
+			}
+		}
+		
+		System.out.println("AMBIENTE HIGIÊNIZADO!");
+		// APRESENTAÇÃO DO MAPA
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+		}
+		for (i = 0; i < (linhas * 2); i++) {
+			for (j = 0; j < (colunas * 2); j++) {
+				System.out.print("  " + mapa[i][j]);
+			}
+			System.out.println("");
+		}
+
 		teclado.close();
 
 	}
